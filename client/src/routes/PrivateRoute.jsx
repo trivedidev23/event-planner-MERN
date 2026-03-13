@@ -1,18 +1,24 @@
 import React, { useEffect } from "react";
-import Cookies from "js-cookie";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import AuthLayout from "../layout/AuthLayout";
 
 const PrivateRoute = ({ children }) => {
   const navigate = useNavigate();
-  const token = Cookies.get("token");
+  const { isAuthenticated } = useSelector((state) => state.auth);
 
   useEffect(() => {
-    if (!token) {
+    if (!isAuthenticated) {
       navigate("/login");
     }
   }, []);
 
-  return children;
+  return (
+    <>
+      <AuthLayout />
+      {children}
+    </>
+  );
 };
 
 export default PrivateRoute;

@@ -1,5 +1,5 @@
 const router = require("express").Router();
-const { register, login } = require("../controllers/user");
+const { register, login, logout } = require("../controllers/user");
 const {
   validate,
   registerSchema,
@@ -8,5 +8,6 @@ const {
 
 router.post("/register", validate(registerSchema), register);
 router.post("/login", validate(loginSchema), login);
+router.post("/logout", logout);
 
 module.exports = router;

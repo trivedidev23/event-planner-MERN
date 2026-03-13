@@ -1,6 +1,7 @@
 export const USER_SERVICE = {
   register: "/user/register",
   login: "/user/login",
+  logout: "/user/logout",
 };
 
 export const EVENT_SERVICE = {

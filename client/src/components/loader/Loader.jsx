@@ -4,7 +4,7 @@ import "./loader.css";
 const Loader = () => {
   return (
     <div className="loader-overlay">
-      <div class="loader"></div>
+      <div className="loader"></div>
     </div>
   );
 };

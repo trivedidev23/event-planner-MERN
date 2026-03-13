@@ -51,4 +51,15 @@ const login = asyncHandler(async (req, res) => {
     .json({ success: true, message: "User logged in successfully" });
 });
 
-module.exports = { register, login };
+const logout = asyncHandler(async (req, res) => {
+  res.clearCookie("token", {
+    sameSite: "strict",
+    httpOnly: true,
+    secure: process.env.NODE_ENV == "production",
+  });
+  return res
+    .status(200)
+    .json({ success: true, message: "User logged out successfully" });
+});
+
+module.exports = { register, login, logout };
