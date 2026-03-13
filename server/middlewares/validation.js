@@ -32,7 +32,7 @@ const eventSchema = Yup.object({
   endDate: Yup.date()
     .min(Yup.ref("startDate"), "end date can't be before start date")
     .required("End date is required"),
-  recurranceType: Yup.string().required("Recurrance type is required"),
+  recurrenceType: Yup.string().required("Recurrance type is required"),
 });
 
 const validate = (schema) => async (req, res, next) => {

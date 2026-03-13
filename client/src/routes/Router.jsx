@@ -13,6 +13,7 @@ const Router = () => {
     { path: "/register", element: <Register />, isPublic: true },
     { path: "/login", element: <Login />, isPublic: true },
     { path: "/add-event", element: <EventRegister />, isPublic: false },
+    { path: "/edit-event/:id", element: <EventRegister />, isPublic: false },
     { path: "/event-detail/:id", element: <EventDetail />, isPublic: false },
   ];
 

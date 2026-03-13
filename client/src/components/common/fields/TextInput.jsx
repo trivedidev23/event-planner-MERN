@@ -19,12 +19,12 @@ const TextInput = ({
         type={type || "text"}
         name={name}
         value={value}
-        className={`form-control ${className}`}
+        className={`form-control ${err ? "is-invalid" : ""} ${className}`}
         id={id}
         onChange={onChange}
         onBlur={onBlur}
       />
-      {err && <p className="text-danger small">{errorMessage}</p>}
+      {err && <p className="invalid-feedback d-block">{errorMessage}</p>}
     </>
   );
 };

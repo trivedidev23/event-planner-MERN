@@ -2,23 +2,29 @@ const asyncHandler = require("../utils/asyncHandler");
 const EventModel = require("../models/Event");
 
 const getAllEvents = asyncHandler(async (req, res) => {
-  let { page = 1, limit = 10, recurranceType } = req.query;
+  let { page = 1, limit = 10, recurrenceType } = req.query;
 
   page = parseInt(page);
   limit = parseInt(limit);
   let skip = (page - 1) * limit;
   const allowedTypes = ["daily", "weekly", "monthly", "yearly"];
-  if (recurranceType && allowedTypes?.includes(recurranceType)) {
+  if (recurrenceType && allowedTypes?.includes(recurrenceType)) {
     return res.status(400).json({
-      message: "Invalid recurranceType.",
+      message: "Invalid recurrenceType.",
       success: false,
     });
   }
-  const totalEvents = await EventModel.countDocuments({ recurranceType });
-  const events = await EventModel.find({ recurranceType })
+  let filter = {};
+  if (recurrenceType) {
+    filter.recurrenceType = recurrenceType;
+  }
+  const totalEvents = await EventModel.countDocuments(filter);
+
+  const events = await EventModel.find(filter)
     .skip(skip)
     .limit(limit)
     .sort({ startDate: 1 });
+
   return res.status(200).json({
     data: events,
     pagination: {
@@ -43,7 +49,7 @@ const getEventById = asyncHandler(async (req, res) => {
 });
 const createEvent = asyncHandler(async (req, res) => {
   const { id } = req.user;
-  const { title, description, startDate, endDate, recurranceType } = req.body;
+  const { title, description, startDate, endDate, recurrenceType } = req.body;
   const event = await EventModel.findOne({ title });
   if (event)
     return res
@@ -54,7 +60,7 @@ const createEvent = asyncHandler(async (req, res) => {
     description,
     startDate,
     endDate,
-    recurranceType,
+    recurrenceType,
     createdBy: id,
   });
   await newEvent.save();
@@ -66,7 +72,7 @@ const createEvent = asyncHandler(async (req, res) => {
 });
 const updateEvent = asyncHandler(async (req, res) => {
   const { id } = req.user;
-  const { title, description, startDate, endDate, recurranceType } = req.body;
+  const { title, description, startDate, endDate, recurrenceType } = req.body;
   const event = await EventModel.findById(req.params.id);
   if (!event)
     return res.status(404).json({ message: "Event not found", success: false });
@@ -77,14 +83,14 @@ const updateEvent = asyncHandler(async (req, res) => {
       success: false,
     });
 
-  const newEvent = await EventModel.findOneAndUpdate(
+  const newEvent = await EventModel.findByIdAndUpdate(
     req.params.id,
     {
       title,
       description,
       startDate,
       endDate,
-      recurranceType,
+      recurrenceType,
     },
     { new: true },
   );

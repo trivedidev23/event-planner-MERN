@@ -5,6 +5,7 @@ export const USER_SERVICE = {
 };
 
 export const EVENT_SERVICE = {
+  createEvent: "/event/addEvent",
   getAllEvents: "/event/getAllEvents",
   getEventById: "/event/getEvent",
   updateEvent: "/event/updateEvent",

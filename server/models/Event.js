@@ -18,7 +18,7 @@ const EventSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
-    recurranceType: {
+    recurrenceType: {
       type: String,
       enum: ["daily", "weekly", "monthly", "yearly"],
       required: true,
